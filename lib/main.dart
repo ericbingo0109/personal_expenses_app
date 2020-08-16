@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,6 +24,16 @@ class MyApp extends StatelessWidget {
  */
 
 class MyHomePage extends StatelessWidget {
+  final List<Transaction> transactions = [
+    Transaction(
+        id: 't1', title: 'new shoes', amount: 69.99, date: DateTime.now()),
+    Transaction(
+        id: 't2',
+        title: 'Weekly groceries',
+        amount: 16.53,
+        date: DateTime.now()),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +47,7 @@ class MyHomePage extends StatelessWidget {
           CrossAxisAlignment : 反之
           如Column : 左右方向 ; Row : 上下方向
           */
-          crossAxisAlignment: CrossAxisAlignment.start, // default is center
+          crossAxisAlignment: CrossAxisAlignment.center, // default is center
           mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
           children: <Widget>[
             /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
@@ -63,10 +74,54 @@ class MyHomePage extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
+            Column(
+              children: transactions.map((tx) {
+                /*
+                return Card(
+                  child: Text(tx.title),
+                );
+                */
+                return Row(
+                  children: <Widget>[
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      child: Text(
+                        // tx.amount.toString(),
+                        '\$${tx.amount}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.purple),
+                      ),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.purple, width: 2)),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          tx.title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        Text(
+                          tx.date.toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    )
+                  ],
+                );
+              }).toList(),
+            )
+            /*
             Card(
               child: Text('List of tx '),
               color: Colors.red,
             )
+            */
           ],
         ));
   }
