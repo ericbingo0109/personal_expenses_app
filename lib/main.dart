@@ -34,20 +34,17 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Flutter App'),
       ),
-      body: Container(
-        height: 400,
-        child: SingleChildScrollView(
-          child: Column(
-            /*
+      body: Column(
+        /*
                 MainAxisAlignment : 順著Widget發展方向 去記
                 如Column : 上下方向 ; Row : 左右方向
                 CrossAxisAlignment : 反之
                 如Column : 左右方向 ; Row : 上下方向
                 */
-            crossAxisAlignment: CrossAxisAlignment.center, // default is center
-            // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
-            children: <Widget>[
-              /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
+        crossAxisAlignment: CrossAxisAlignment.center, // default is center
+        // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
+        children: <Widget>[
+          /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
                   Card(
                     // child: Text('Chart !'),
                     // 若想調整Card size 則必須在 child設定
@@ -60,29 +57,27 @@ class MyHomePage extends StatelessWidget {
                     elevation: 5, // 按鈕陰影大小值
                   ),
                     */
-              /*方法二 改用Container 去包整個 Card
+          /*方法二 改用Container 去包整個 Card
                    滑鼠游標在 Text 按 Command + . 選擇 wrap with Container
                   */
-              Container(
-                width: double.infinity,
-                child: Card(
-                  child: Text('Chart !'),
-                  elevation: 5,
-                  color: Colors.blue,
-                ),
-              ),
-              UserTransactions(),
-              // NewTransaction(),
-              // TransactionList()
-              /*
+          Container(
+            width: double.infinity,
+            child: Card(
+              child: Text('Chart !'),
+              elevation: 5,
+              color: Colors.blue,
+            ),
+          ),
+          UserTransactions(),
+          // NewTransaction(),
+          // TransactionList()
+          /*
                   Card(
                     child: Text('List of tx '),
                     color: Colors.red,
                   )
                   */
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
