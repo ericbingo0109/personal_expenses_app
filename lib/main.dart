@@ -49,7 +49,7 @@ class MyHomePage extends StatelessWidget {
           如Column : 左右方向 ; Row : 上下方向
           */
           crossAxisAlignment: CrossAxisAlignment.center, // default is center
-          mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
+          // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
           children: <Widget>[
             /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
             Card(
@@ -73,6 +73,30 @@ class MyHomePage extends StatelessWidget {
                 child: Text('Chart !'),
                 elevation: 5,
                 color: Colors.blue,
+              ),
+            ),
+            Card(
+              elevation: 5,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Title'),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Amount'),
+                    ), // 文字輸入框 輸入字的時候，labelText會上移縮小並不會消失
+                    FlatButton(
+                      onPressed: () {},
+                      //color: Colors.black,
+                      textColor: Colors.purple,
+                      child: Text('Add Transaction'),
+                      //hoverColor: Colors.green,
+                    )
+                  ],
+                ),
               ),
             ),
             Column(
