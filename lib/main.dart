@@ -25,8 +25,12 @@ class MyApp extends StatelessWidget {
  */
 
 class MyHomePage extends StatelessWidget {
-  String titleInput;
-  String amountInput; // 新增這兩個變數接受input文字
+  // String titleInput;
+  // String amountInput; // 新增這兩個變數接受input文字
+
+  /* 另一種抓取user input 為使用TextEditingController*/
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   final List<Transaction> transactions = [
     Transaction(
@@ -87,19 +91,21 @@ class MyHomePage extends StatelessWidget {
                   children: <Widget>[
                     TextField(
                       decoration: InputDecoration(labelText: 'Title'),
-                      onChanged: (value) {
-                        // 這邊可以自己命名傳入參數
-                        this.titleInput = value;
-                      },
+                      // onChanged: (value) { // 這邊可以自己命名傳入參數
+
+                      // this.titleInput = value;
+                      // },
+                      controller: titleController,
                     ),
                     TextField(
                       decoration: InputDecoration(labelText: 'Amount'),
-                      onChanged: (value) => this.amountInput = value,
+                      // onChanged: (value) => this.amountInput = value,
+                      controller: amountController,
                     ), // 文字輸入框 輸入字的時候，labelText會上移縮小並不會消失
                     FlatButton(
                       onPressed: () {
-                        print(this.titleInput);
-                        print(this.amountInput);
+                        print(titleController.text);
+                        print(amountController.text);
                       },
                       //color: Colors.black,
                       textColor: Colors.purple,
