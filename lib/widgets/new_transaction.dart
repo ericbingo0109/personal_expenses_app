@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expenses_app/widgets/user_transactions.dart';
 
 class NewTransaction extends StatelessWidget {
   /* 另一種抓取user input 為使用TextEditingController*/

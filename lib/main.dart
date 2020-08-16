@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'widgets/new_transaction.dart';
 
-import './widgets/transaction_list.dart';
+import './widgets/user_transactions.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-/**
+/*
  * 測驗六
  * How much height does a Column take by default?
  * 答案 All available vertical space on the screen
@@ -69,6 +68,7 @@ class MyHomePage extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
+            UserTransactions(),
             // NewTransaction(),
             // TransactionList()
             /*
