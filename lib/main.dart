@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import './transaction.dart';
-import 'package:intl/intl.dart';
+import 'widgets/new_transaction.dart';
+
+import './widgets/transaction_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,20 +28,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   // String titleInput;
   // String amountInput; // 新增這兩個變數接受input文字
-
-  /* 另一種抓取user input 為使用TextEditingController*/
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
-
-  final List<Transaction> transactions = [
-    Transaction(
-        id: 't1', title: 'new shoes', amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: 't2',
-        title: 'Weekly groceries',
-        amount: 16.53,
-        date: DateTime.now()),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -82,94 +69,8 @@ class MyHomePage extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            Card(
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Title'),
-                      // onChanged: (value) { // 這邊可以自己命名傳入參數
-
-                      // this.titleInput = value;
-                      // },
-                      controller: titleController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Amount'),
-                      // onChanged: (value) => this.amountInput = value,
-                      controller: amountController,
-                    ), // 文字輸入框 輸入字的時候，labelText會上移縮小並不會消失
-                    FlatButton(
-                      onPressed: () {
-                        print(titleController.text);
-                        print(amountController.text);
-                      },
-                      //color: Colors.black,
-                      textColor: Colors.purple,
-                      child: Text('Add Transaction'),
-                      //hoverColor: Colors.green,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Column(
-              children: transactions.map((tx) {
-                /*
-                return Card(
-                  child: Text(tx.title),
-                );
-                */
-                return Row(
-                  children: <Widget>[
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      child: Text(
-                        // tx.amount.toString(),
-                        '\$${tx.amount}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.purple),
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.purple, width: 2)),
-                      padding: EdgeInsets.all(10),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          tx.title,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(
-                          // DateFormat().format(tx.date),// August 16, 2020 7:17:03 PM
-                          // DateFormat('yyyy-MM-dd').format(tx.date),// 2020-08-16
-                          // 注意下面這個小時要用大寫HH為24小時制，反之hh則為12小時制
-                          DateFormat('yyyy-MM-dd HH:mm:ss')
-                              .format(tx.date), // 2020-08-16 19:18:30
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Text(
-                          /**
-                           * 更多時間的example 看 第82講
-                           * 或直接去看文件說明https://pub.dev/documentation/intl/latest/intl/DateFormat-class.html
-                           */
-                          DateFormat.yMMMd().format(tx.date), // Aug 16, 2020
-                          style: TextStyle(color: Colors.red),
-                        )
-                      ],
-                    )
-                  ],
-                );
-              }).toList(),
-            )
+            NewTransaction(),
+            TransactionList()
             /*
             Card(
               child: Text('List of tx '),
