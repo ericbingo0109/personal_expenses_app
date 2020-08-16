@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses_app/widgets/user_transactions.dart';
+// import '../widgets/user_transactions.dart';
 
 class NewTransaction extends StatelessWidget {
   /* 另一種抓取user input 為使用TextEditingController*/
   final titleController = TextEditingController();
   final amountController = TextEditingController();
+  // 將user_transactions的_addNewTransaction 的pointer綁到addTx
+  // 這樣就能在這檔案執行那個private function了
+  final Function addTx;
+  NewTransaction({this.addTx});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -31,6 +36,11 @@ class NewTransaction extends StatelessWidget {
               onPressed: () {
                 print(titleController.text);
                 print(amountController.text);
+                addTx(
+                  titleController.text,
+                  // convert String to double
+                  double.parse(amountController.text),
+                );
               },
               //color: Colors.black,
               textColor: Colors.purple,
