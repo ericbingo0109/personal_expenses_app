@@ -69,8 +69,8 @@ class MyHomePage extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            NewTransaction(),
-            TransactionList()
+            // NewTransaction(),
+            // TransactionList()
             /*
             Card(
               child: Text('List of tx '),
