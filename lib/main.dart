@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expenses_app/widgets/transaction_list.dart';
+import './widgets/new_transaction.dart';
 
-import './widgets/user_transactions.dart';
+import 'models/transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,9 +26,55 @@ class MyApp extends StatelessWidget {
  * 
  */
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   // String titleInput;
   // String amountInput; // 新增這兩個變數接受input文字
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: 't1',
+      title: 'new shoes',
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+        id: 't2',
+        title: 'Weekly groceries',
+        amount: 16.53,
+        date: DateTime.now()),
+  ];
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+      id: DateTime.now().toString(),
+      title: txTitle,
+      amount: txAmount,
+      date: DateTime.now(),
+    );
+    setState(() {
+      _userTransactions.add(newTx);
+    });
+  }
+
+  void _startAddNewTransaction(BuildContext ctx) {
+    // showModalBottomSheet 是 flutter內建的
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          behavior: HitTestBehavior.opaque,
+          child: NewTransaction(
+            addTx: _addNewTransaction,
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +84,7 @@ class MyHomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add), //Icons有許多內建icon可選擇
-            onPressed: () {},
+            onPressed: () => _startAddNewTransaction(context),
           )
         ],
       ),
@@ -48,6 +96,7 @@ class MyHomePage extends StatelessWidget {
                 如Column : 左右方向 ; Row : 上下方向
                 */
         crossAxisAlignment: CrossAxisAlignment.center, // default is center
+        // verticalDirection: VerticalDirection.down,
         // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
         children: <Widget>[
           /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
@@ -74,7 +123,7 @@ class MyHomePage extends StatelessWidget {
               color: Colors.blue,
             ),
           ),
-          UserTransactions(),
+          TransactionList(_userTransactions),
           // NewTransaction(),
           // TransactionList()
           /*
@@ -87,7 +136,7 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _startAddNewTransaction(context),
         child: Icon(Icons.add),
       ),
     );
