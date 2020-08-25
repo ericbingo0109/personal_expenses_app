@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class NewTransaction extends StatelessWidget {
   /* 另一種抓取user input 為使用TextEditingController*/
-  final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
   // 將user_transactions的_addNewTransaction 的pointer綁到addTx
   // 這樣就能在這檔案執行那個private function了
   final Function addTx;
@@ -26,12 +26,12 @@ class NewTransaction extends StatelessWidget {
 
               // this.titleInput = value;
               // },
-              controller: _titleController,
+              controller: titleController,
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               // onChanged: (value) => this.amountInput = value,
-              controller: _amountController,
+              controller: amountController,
               // keyboardType: TextInputType.number, // cursor在此欄位時僅跳出數字keyboard
               // On iOS, this might not allow for decial places. 如果在ios彈起的鍵盤中無小數點符號
               // 就用 keyboardType: TextInputType.numberWithOptions(decimal: true) 來解決此問題
@@ -40,12 +40,12 @@ class NewTransaction extends StatelessWidget {
             ), // 文字輸入框 輸入字的時候，labelText會上移縮小並不會消失
             FlatButton(
               onPressed: () {
-                print(_titleController.text);
-                print(_amountController.text);
+                print(titleController.text);
+                print(amountController.text);
                 addTx(
-                  _titleController.text,
+                  titleController.text,
                   // convert String to double
-                  double.parse(_amountController.text),
+                  double.parse(amountController.text),
                 );
               },
               //color: Colors.black,
