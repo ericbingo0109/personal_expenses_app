@@ -11,6 +11,21 @@ class NewTransaction extends StatelessWidget {
   final Function addTx;
   NewTransaction({this.addTx});
 
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+
+    // 在這邊做簡單的輸入值檢查，其中有一欄位為空則return 不讓user submit
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
+
+    addTx(
+      enteredTitle,
+      enteredAmount,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,6 +42,9 @@ class NewTransaction extends StatelessWidget {
               // this.titleInput = value;
               // },
               controller: titleController,
+              // onSubmitted: (value) => submitData,
+              // 也可以這樣寫，底線代表I get an argument, but I don't care about it here
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
@@ -37,17 +55,12 @@ class NewTransaction extends StatelessWidget {
               // 就用 keyboardType: TextInputType.numberWithOptions(decimal: true) 來解決此問題
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               // FIXME:這邊ios有個問題就是不會自動彈出輸入鍵盤...google了半天找不到解決方式
+              // onSubmitted: (value) => submitData,
+              // 也可以這樣寫，底線代表I get an argument, but I don't care about it here
+              onSubmitted: (_) => submitData(),
             ), // 文字輸入框 輸入字的時候，labelText會上移縮小並不會消失
             FlatButton(
-              onPressed: () {
-                print(titleController.text);
-                print(amountController.text);
-                addTx(
-                  titleController.text,
-                  // convert String to double
-                  double.parse(amountController.text),
-                );
-              },
+              onPressed: submitData,
               //color: Colors.black,
               textColor: Colors.purple,
               child: Text('Add Transaction'),

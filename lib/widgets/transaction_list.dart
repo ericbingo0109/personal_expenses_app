@@ -25,7 +25,8 @@ class TransactionList extends StatelessWidget {
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: Text(
                     // tx.amount.toString(),
-                    '\$${transactions[index].amount}',
+                    // toStringAsFixed(2) 固定輸出字串到小數點後2位 四捨五入
+                    '\$${transactions[index].amount.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
