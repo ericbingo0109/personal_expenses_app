@@ -15,9 +15,32 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         //有別於primaryColor僅設定單一顏色，primarySwatch會基於一種顏色以外還會自動產生陰影效果
         primarySwatch: Colors.amber, // 主要顏色
+        /**
+         * 問題：What's the difference between primarySwatch and primaryColor?
+         * 解答：primarySwatch is a collection of different color shades.
+         * That's correct. You get different shades which some Flutter widgets automatically use.
+         */
         // 次要顏色，沒有設定則依照primarySwatch，有設定的話，例如 floating action button 就會依照這顏色
         accentColor: Colors.green,
-        // appBarTheme:,
+        /**
+         * 問題：How do you use a text theme on a Text() widget?
+         * 解答：Define globally, use via the style argument.
+         * 
+         */
+        //其他地方也想直接套用這個textTheme的title style的話，可設定 style: Theme.of(context).textTheme.title
+        //即可吃到同樣的TextStyle, 見 transaction_list.dart : 59
+        textTheme: ThemeData.light().textTheme.copyWith(
+            title: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold)),
+        appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold))),
+        fontFamily: 'Quicksand', // 要跟我在 pubspec.yaml 設定的font字串相符
       ),
       home: MyHomePage(),
     );
@@ -88,7 +111,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Personal Expenses'),
+        title: Text(
+          'Personal Expenses',
+          //與整體theme font不一樣時就自行設定, 可是一旦頁面很多時這樣設定就很麻煩
+          // 所以較佳的做法是設定 appBarTheme
+          // style: TextStyle(fontFamily: 'OpenSans'),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add), //Icons有許多內建icon可選擇

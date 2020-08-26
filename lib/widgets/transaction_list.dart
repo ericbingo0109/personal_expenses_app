@@ -56,8 +56,7 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                     children: <Widget>[
                       Text(
                         transactions[index].title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                        style: Theme.of(context).textTheme.title,
                       ),
                       Text(
                         // DateFormat().format(tx.date),// August 16, 2020 7:17:03 PM
