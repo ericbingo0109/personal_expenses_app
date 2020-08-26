@@ -29,6 +29,8 @@ class _NewTransactionState extends State<NewTransaction> {
       enteredTitle,
       enteredAmount,
     );
+
+    Navigator.of(context).pop(); // 當程式流程走到這裡時，自動將popup的視窗關閉
   }
 
   @override
