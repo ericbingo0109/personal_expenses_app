@@ -14,7 +14,10 @@ class MyApp extends StatelessWidget {
       // use theme to set up a global application-wide theme
       theme: ThemeData(
         //有別於primaryColor僅設定單一顏色，primarySwatch會基於一種顏色以外還會自動產生陰影效果
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.amber, // 主要顏色
+        // 次要顏色，沒有設定則依照primarySwatch，有設定的話，例如 floating action button 就會依照這顏色
+        accentColor: Colors.green,
+        // appBarTheme:,
       ),
       home: MyHomePage(),
     );
