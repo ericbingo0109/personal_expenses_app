@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 // import 'package:keyboard_actions/keyboard_actions.dart';
 // import '../widgets/user_transactions.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   /* 另一種抓取user input 為使用TextEditingController*/
-  final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
-  // 將user_transactions的_addNewTransaction 的pointer綁到addTx
-  // 這樣就能在這檔案執行那個private function了
   final Function addTx;
   NewTransaction({this.addTx});
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final _titleController = TextEditingController();
+
+  final _amountController = TextEditingController();
 
   void submitData() {
     final enteredTitle = _titleController.text;
@@ -20,7 +25,7 @@ class NewTransaction extends StatelessWidget {
       return;
     }
 
-    addTx(
+    widget.addTx(
       enteredTitle,
       enteredAmount,
     );
