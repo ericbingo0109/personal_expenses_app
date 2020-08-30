@@ -50,6 +50,7 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                   )
                 ],
               )
+            // 注意：ListView是無限高度 所以上面才用container包住並且限制高度
             : ListView.builder(
                 itemBuilder: (context, index) {
                   // 改用ListTile
