@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses_app/widgets/transaction_list.dart';
+import './widgets/chart.dart';
+import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 
 import 'models/transaction.dart';
@@ -79,6 +80,17 @@ class _MyHomePageState extends State<MyHomePage> {
     //     amount: 16.53,
     //     date: DateTime.now()),
   ];
+
+  // 回傳七天前到現在的transactions
+  List<Transaction> get _recentTransactions {
+    // 類似sql語句的where條件
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(Duration(days: 7)),
+      );
+    }).toList();
+  }
+
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
@@ -151,14 +163,15 @@ class _MyHomePageState extends State<MyHomePage> {
           /*方法二 改用Container 去包整個 Card
                    滑鼠游標在 Text 按 Command + . 選擇 wrap with Container
                   */
-          Container(
-            width: double.infinity,
-            child: Card(
-              child: Text('Chart !'),
-              elevation: 5,
-              color: Colors.blue,
-            ),
-          ),
+          // Container(
+          //   width: double.infinity,
+          //   child: Card(
+          //     child: Text('Chart !'),
+          //     elevation: 5,
+          //     color: Colors.blue,
+          //   ),
+          // ),
+          Chart(_recentTransactions),
           TransactionList(_userTransactions),
           // NewTransaction(),
           // TransactionList()

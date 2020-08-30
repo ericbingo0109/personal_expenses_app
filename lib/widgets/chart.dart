@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 class Chart extends StatelessWidget {
   final List<Transaction> currentTransactions;
 
-  Chart({this.currentTransactions});
+  Chart(this.currentTransactions);
 /**
  * 動態產生過去七天的expense狀況
  * List<Map<String, Object>> 最後再打 不然vs code有點怪怪的一直報錯...
@@ -28,14 +28,18 @@ class Chart extends StatelessWidget {
           totalSum += currentTransactions[i].amount;
         }
       }
+      print(DateFormat.E().format(weekDay));
+      print(totalSum);
+
       // import intl.dart for using DateFormat
-      return {'Day': DateFormat.E(weekDay), 'amount': totalSum};
-      // DateFormat.E(weekDay) 會顯示那天的shortcut ex: Monday -> M ; Tuesday -> T
+      return {'Day': DateFormat.E().format(weekDay), 'amount': totalSum};
+      // DateFormat.E().format(weekDay) 會顯示那天的shortcut ex: Monday -> Mon ; Tuesday -> Tue
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    groupedTransactionValues;
     return Card(
       elevation: 6, // 陰影大小
       margin: EdgeInsets.all(20),
