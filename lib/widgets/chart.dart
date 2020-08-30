@@ -7,6 +7,7 @@ class Chart extends StatelessWidget {
 
   Chart({this.currentTransactions});
 /**
+ * 動態產生過去七天的expense狀況
  * List<Map<String, Object>> 最後再打 不然vs code有點怪怪的一直報錯...
  */
   List<Map<String, Object>> get groupedTransactionValues {
@@ -16,8 +17,19 @@ class Chart extends StatelessWidget {
       // final weekDay = DateTime.now().add(Duration(days: index));
       // add 多久之後
       final weekDay = DateTime.now().subtract(Duration(days: index));
+
+      var totalSum = 0.0;
+
+      for (int i = 0; i < currentTransactions.length; i++) {
+        if (currentTransactions[i].date.day == weekDay.day &&
+            currentTransactions[i].date.month == weekDay.month && // 7月即7
+            // 西元年
+            currentTransactions[i].date.year == weekDay.year) {
+          totalSum += currentTransactions[i].amount;
+        }
+      }
       // import intl.dart for using DateFormat
-      return {'Day': DateFormat.E(weekDay), 'amount': 9.99};
+      return {'Day': DateFormat.E(weekDay), 'amount': totalSum};
       // DateFormat.E(weekDay) 會顯示那天的shortcut ex: Monday -> M ; Tuesday -> T
     });
   }
