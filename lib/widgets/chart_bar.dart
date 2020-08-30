@@ -11,8 +11,10 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        // 這邊設定chart僅顯示到整數部分
-        Text('\$${spendingAmount.toStringAsFixed(0)}'),
+        FittedBox(
+          // 這邊設定chart僅顯示到整數部分
+          child: Text('\$${spendingAmount.toStringAsFixed(0)}'),
+        ),
         SizedBox(
           height: 4,
         ),

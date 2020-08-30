@@ -65,19 +65,27 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6, // 陰影大小
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactionValues.map((data) {
-          // 注意這邊取值時 key大小寫別寫錯
-          // return Text('${data['Day']} : ${data['amount']}');
-          return ChartBar(
-            data['Day'],
-            data['amount'],
-            totalSpending == 0.0
-                ? 0.0
-                : (data['amount'] as double) / totalSpending,
-            // 告訴Dart data['amount'] 為 double
-          );
-        }).toList(),
+      child: Container(
+        // 如果只要單純調整padding的話, 這邊也可將Container改為Padding
+        padding: EdgeInsets.all(10), // 加一點padding 不讓bar太靠近card
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionValues.map((data) {
+            // 注意這邊取值時 key大小寫別寫錯
+            // return Text('${data['Day']} : ${data['amount']}');
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                data['Day'],
+                data['amount'],
+                totalSpending == 0.0
+                    ? 0.0
+                    : (data['amount'] as double) / totalSpending,
+                // 告訴Dart data['amount'] 為 double
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
