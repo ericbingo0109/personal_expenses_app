@@ -92,7 +92,7 @@ class _NewTransactionState extends State<NewTransaction> {
               onSubmitted: (_) => _submitData(),
             ), // 文字輸入框 輸入字的時候，labelText會上移縮小並不會消失
             Container(
-              height: 80,
+              height: 70,
               child: Row(
                 children: <Widget>[
                   Expanded(

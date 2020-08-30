@@ -29,8 +29,8 @@ class Chart extends StatelessWidget {
           totalSum += currentTransactions[i].amount;
         }
       }
-      print(DateFormat.E().format(weekDay));
-      print(totalSum);
+      // print(DateFormat.E().format(weekDay));
+      // print(totalSum);
 
       // import intl.dart for using DateFormat
       return {

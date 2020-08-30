@@ -5,8 +5,9 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function deleteTx;
 
-  TransactionList(this.transactions);
+  TransactionList(this.transactions, this.deleteTx);
   @override
   Widget build(BuildContext context) {
     /**
@@ -59,21 +60,26 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                       horizontal: 5,
                     ),
                     child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        child: Padding(
-                          padding: EdgeInsets.all(6),
-                          child: FittedBox(
-                              child: Text('\$${transactions[index].amount}')),
+                        leading: CircleAvatar(
+                          radius: 30,
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: FittedBox(
+                                child: Text('\$${transactions[index].amount}')),
+                          ),
                         ),
-                      ),
-                      title: Text(
-                        transactions[index].title,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      subtitle: Text(
-                          DateFormat.yMMMMd().format(transactions[index].date)),
-                    ),
+                        title: Text(
+                          transactions[index].title,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        subtitle: Text(
+                          DateFormat.yMMMMd().format(transactions[index].date),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          color: Theme.of(context).errorColor, // default red
+                          onPressed: () => deleteTx(transactions[index].id),
+                        )),
                   );
                   /*
                   return Card(
