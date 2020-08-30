@@ -32,21 +32,27 @@ class Chart extends StatelessWidget {
       print(totalSum);
 
       // import intl.dart for using DateFormat
-      return {'Day': DateFormat.E().format(weekDay), 'amount': totalSum};
+      return {
+        'Day': DateFormat.E()
+            .format(weekDay)
+            .toString()
+            .substring(0, 1), // 改為只取第一個英文字
+        'amount': totalSum,
+      };
       // DateFormat.E().format(weekDay) 會顯示那天的shortcut ex: Monday -> Mon ; Tuesday -> Tue
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    groupedTransactionValues;
     return Card(
       elevation: 6, // 陰影大小
       margin: EdgeInsets.all(20),
       child: Row(
-        children: <Widget>[
-          //
-        ],
+        children: groupedTransactionValues.map((data) {
+          // 注意這邊取值時 key大小寫別寫錯
+          return Text('${data['Day']} : ${data['amount']}');
+        }).toList(),
       ),
     );
   }
