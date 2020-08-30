@@ -18,17 +18,21 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate; // 選定date後可能會變動 所以不用final
 
   void _submitData() {
+    if (_amountController.text.isEmpty) {
+      return;
+    }
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
     // 在這邊做簡單的輸入值檢查，其中有一欄位為空則return 不讓user submit
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
 
     widget.addTx(
       enteredTitle,
       enteredAmount,
+      _selectedDate,
     );
 
     Navigator.of(context).pop(); // 當程式流程走到這裡時，自動將popup的視窗關閉
