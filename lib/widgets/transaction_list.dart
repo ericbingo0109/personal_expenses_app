@@ -32,7 +32,7 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                 children: <Widget>[
                   Text(
                     'No transaction add yet!',
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                   SizedBox(
                     // 常用來當作Widget之間的間隔
@@ -80,7 +80,7 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                           children: <Widget>[
                             Text(
                               transactions[index].title,
-                              style: Theme.of(context).textTheme.title,
+                              style: Theme.of(context).textTheme.headline6,
                             ),
                             Text(
                               // DateFormat().format(tx.date),// August 16, 2020 7:17:03 PM
