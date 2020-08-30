@@ -31,10 +31,15 @@ class MyApp extends StatelessWidget {
         //其他地方也想直接套用這個textTheme的title style的話，可設定 style: Theme.of(context).textTheme.title
         //即可吃到同樣的TextStyle, 見 transaction_list.dart : 59
         textTheme: ThemeData.light().textTheme.copyWith(
-            headline6: TextStyle(
+              headline6: TextStyle(
                 fontFamily: 'OpenSans',
                 fontSize: 18,
-                fontWeight: FontWeight.bold)),
+                fontWeight: FontWeight.bold,
+              ),
+              button: TextStyle(
+                color: Colors.white,
+              ),
+            ),
         appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(

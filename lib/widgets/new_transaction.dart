@@ -66,10 +66,27 @@ class _NewTransactionState extends State<NewTransaction> {
               // 也可以這樣寫，底線代表I get an argument, but I don't care about it here
               onSubmitted: (_) => submitData(),
             ), // 文字輸入框 輸入字的時候，labelText會上移縮小並不會消失
-            FlatButton(
+            Container(
+              height: 80,
+              child: Row(
+                children: <Widget>[
+                  Text('No Date Chosen!'),
+                  FlatButton(
+                    child: Text(
+                      'Chose Date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    textColor: Theme.of(context).primaryColor,
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ),
+            RaisedButton(
               onPressed: submitData,
-              //color: Colors.black,
-              textColor: Colors.red,
+              color: Theme.of(context).primaryColor,
+              // 在main.dart 設定button color
+              textColor: Theme.of(context).textTheme.button.color,
               child: Text('Add Transaction'),
               //hoverColor: Colors.green,
             )
