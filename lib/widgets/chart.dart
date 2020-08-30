@@ -41,7 +41,8 @@ class Chart extends StatelessWidget {
         'amount': totalSum,
       };
       // DateFormat.E().format(weekDay) 會顯示那天的shortcut ex: Monday -> Mon ; Tuesday -> Tue
-    });
+    }).reversed.toList();
+    // reverse 原先的list順序，將今日的bar放在最右邊，向左遞減到七天前的bar，較符合視覺習慣
   }
 
   double get totalSpending {
