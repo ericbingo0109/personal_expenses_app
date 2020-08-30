@@ -59,14 +59,8 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                       horizontal: 5,
                     ),
                     child: ListTile(
-                      leading: Container(
-                        // radius: 30,
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          shape: BoxShape.circle,
-                        ),
+                      leading: CircleAvatar(
+                        radius: 30,
                         child: Padding(
                           padding: EdgeInsets.all(6),
                           child: FittedBox(
