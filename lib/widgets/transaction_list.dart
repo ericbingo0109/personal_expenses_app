@@ -51,6 +51,31 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
               )
             : ListView.builder(
                 itemBuilder: (context, index) {
+                  // 改用ListTile
+                  return Card(
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 5,
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: FittedBox(
+                              child: Text('\$${transactions[index].amount}')),
+                        ),
+                      ),
+                      title: Text(
+                        transactions[index].title,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      subtitle: Text(
+                          DateFormat.yMMMMd().format(transactions[index].date)),
+                    ),
+                  );
+                  /*
                   return Card(
                     child: Row(
                       children: <Widget>[
@@ -107,6 +132,7 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                   );
                   //將原本的Card 放在itemBuilder內
                   // 也取代了原先transactions.map((tx) {...}).toList(),的方式
+                  */
                 },
                 itemCount:
                     transactions.length, // how many items should be build
