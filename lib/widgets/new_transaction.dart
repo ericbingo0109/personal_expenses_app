@@ -82,11 +82,13 @@ class _NewTransactionState extends State<NewTransaction> {
               decoration: InputDecoration(labelText: 'Amount'),
               // onChanged: (value) => this.amountInput = value,
               controller: _amountController,
-              keyboardType: TextInputType.number, // cursor在此欄位時僅跳出數字keyboard
+              // keyboardType: TextInputType.number, // cursor在此欄位時僅跳出數字keyboard
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
               // On iOS, this might not allow for decial places. 如果在ios彈起的鍵盤中無小數點符號
               // 就用 keyboardType: TextInputType.numberWithOptions(decimal: true) 來解決此問題
               // keyboardType: TextInputType.numberWithOptions(decimal: true),
-              // FIXME:這邊ios有個問題就是不會自動彈出輸入鍵盤...google了半天找不到解決方式
+              // 這邊ios有個問題就是不會自動彈出輸入鍵盤...google了半天找不到解決方式
+              // 從 simulator 的 menu 點選 I/O >Keyboard > Toggle Software Keyboard，即可看到我們想念的鍵盤。(快速鍵 cmd + k )
               // onSubmitted: (value) => _submitData,
               // 也可以這樣寫，底線代表I get an argument, but I don't care about it here
               onSubmitted: (_) => _submitData(),
