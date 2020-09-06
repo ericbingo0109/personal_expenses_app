@@ -135,6 +135,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // user的裝置是否為水平狀態
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     /**
      * textScaleFactor tells you by how much text output in the app should be scaled. 
      * Users can change this in their mobile phone / device settings.
@@ -166,6 +169,19 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
 
+    double chartHeight = remainAvailableHeight * 0.4;
+    double txListHeight = remainAvailableHeight * 0.6;
+
+    if (isLandscape) {
+      chartHeight = remainAvailableHeight * 0.7;
+      txListHeight = remainAvailableHeight * 0.7;
+    }
+
+    final txListWidget = Container(
+      height: txListHeight,
+      child: TransactionList(_userTransactions, _deleteTransaction),
+    );
+
     return Scaffold(
       appBar: appBar,
       body: Column(
@@ -179,19 +195,21 @@ class _MyHomePageState extends State<MyHomePage> {
         // verticalDirection: VerticalDirection.down,
         // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Show Chart'),
-              Switch(
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  }),
-            ],
-          ),
+          // 當裝置為landscape時 才顯示Switch
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Show Chart'),
+                Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    }),
+              ],
+            ),
           /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
                   Card(
                     // child: Text('Chart !'),
@@ -216,19 +234,25 @@ class _MyHomePageState extends State<MyHomePage> {
           //     color: Colors.blue,
           //   ),
           // ),
-          _showChart
-              ?
-              /**
+          // 直立的時候 : 就顯示 Chart 以及 TransactionList
+          if (!isLandscape)
+            Container(
+              height: chartHeight,
+              child: Chart(_recentTransactions),
+            ),
+          if (!isLandscape) txListWidget,
+          // 水平的時候 ： 顯示Switch去動態調整顯示 Chart 或 TransactionList
+          if (isLandscape)
+            _showChart
+                ?
+                /**
            * 透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
            */
-              Container(
-                  height: remainAvailableHeight * 0.7,
-                  child: Chart(_recentTransactions),
-                )
-              : Container(
-                  height: remainAvailableHeight * 0.6,
-                  child: TransactionList(_userTransactions, _deleteTransaction),
-                ),
+                Container(
+                    height: chartHeight,
+                    child: Chart(_recentTransactions),
+                  )
+                : txListWidget,
           // NewTransaction(),
           // TransactionList()
           /*
