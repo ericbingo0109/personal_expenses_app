@@ -20,69 +20,71 @@ I/flutter (23294):   Column file:///Users/eric/development/UdemyFlutterCourse/pe
 I/flutter (23294): 
 I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertical.
      */
-    return Expanded(
-      child: Container(
-        height: 300, //記得要限制個高度給 ListView
-        /**
+    // return Expanded(
+    //   child: Container(
+    // 為了測試MediaQuery的效果 先暫時不用Expanded包覆Container
+    // height: 300, //記得要限制個高度給 ListView
+    /**
          * ListView(children: [])
          * ListView.builder() // 這種只會load螢幕上可見到的範圍  Only load what visible!
          * 當List很多elements時 使用ListView.builder() 會有較佳的performance
          */
-        child: transactions.isEmpty
-            ? Column(
-                children: <Widget>[
-                  Text(
-                    'No transaction add yet!',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  SizedBox(
-                    // 常用來當作Widget之間的間隔
-                    height: 10,
-                  ),
-                  Container(
-                    height: 200,
-                    child: Image.asset(
-                      'assets/images/waiting.png',
-                      // 建議用container  wrap Image
-                      // BoxFit.cover is a great option that respects the boundaries of the surrounding "container" and fits image
-                      fit: BoxFit.cover, // 延伸填滿(圖片可能會被過度放大，部分被裁減掉)
-                    ),
-                  )
-                ],
+    // child: transactions.isEmpty
+    return transactions.isEmpty
+        ? Column(
+            children: <Widget>[
+              Text(
+                'No transaction add yet!',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              SizedBox(
+                // 常用來當作Widget之間的間隔
+                height: 10,
+              ),
+              Container(
+                height: 200,
+                child: Image.asset(
+                  'assets/images/waiting.png',
+                  // 建議用container  wrap Image
+                  // BoxFit.cover is a great option that respects the boundaries of the surrounding "container" and fits image
+                  fit: BoxFit.cover, // 延伸填滿(圖片可能會被過度放大，部分被裁減掉)
+                ),
               )
-            // 注意：ListView是無限高度 所以上面才用container包住並且限制高度
-            : ListView.builder(
-                itemBuilder: (context, index) {
-                  // 改用ListTile
-                  return Card(
-                    elevation: 5,
-                    margin: EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 5,
+            ],
+          )
+        // 注意：ListView是無限高度 所以上面才用container包住並且限制高度
+        : ListView.builder(
+            itemBuilder: (context, index) {
+              // 改用ListTile
+              return Card(
+                elevation: 5,
+                margin: EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 5,
+                ),
+                child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                            child: Text('\$${transactions[index].amount}')),
+                      ),
                     ),
-                    child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 30,
-                          child: Padding(
-                            padding: EdgeInsets.all(6),
-                            child: FittedBox(
-                                child: Text('\$${transactions[index].amount}')),
-                          ),
-                        ),
-                        title: Text(
-                          transactions[index].title,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        subtitle: Text(
-                          DateFormat.yMMMMd().format(transactions[index].date),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.delete),
-                          color: Theme.of(context).errorColor, // default red
-                          onPressed: () => deleteTx(transactions[index].id),
-                        )),
-                  );
-                  /*
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMMd().format(transactions[index].date),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor, // default red
+                      onPressed: () => deleteTx(transactions[index].id),
+                    )),
+              );
+              /*
                   return Card(
                     child: Row(
                       children: <Widget>[
@@ -140,11 +142,10 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                   //將原本的Card 放在itemBuilder內
                   // 也取代了原先transactions.map((tx) {...}).toList(),的方式
                   */
-                },
-                itemCount:
-                    transactions.length, // how many items should be build
-              ),
-      ),
-    );
+            },
+            itemCount: transactions.length, // how many items should be build
+          );
+    // ),
+    // );
   }
 }

@@ -133,21 +133,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Personal Expenses',
-          //與整體theme font不一樣時就自行設定, 可是一旦頁面很多時這樣設定就很麻煩
-          // 所以較佳的做法是設定 appBarTheme
-          // style: TextStyle(fontFamily: 'OpenSans'),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add), //Icons有許多內建icon可選擇
-            onPressed: () => _startAddNewTransaction(context),
-          )
-        ],
+    // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
+    final appBar = AppBar(
+      title: Text(
+        'Personal Expenses',
+        //與整體theme font不一樣時就自行設定, 可是一旦頁面很多時這樣設定就很麻煩
+        // 所以較佳的做法是設定 appBarTheme
+        // style: TextStyle(fontFamily: 'OpenSans'),
       ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add), //Icons有許多內建icon可選擇
+          onPressed: () => _startAddNewTransaction(context),
+        )
+      ],
+    );
+    /**
+     * 剩下可用的高度 = 整個裝置高度 - appBar高度 - 狀態列高度;
+     */
+    final remainAvailableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar,
       body: Column(
         /*
                 MainAxisAlignment : 順著Widget發展方向 去記
@@ -183,8 +192,17 @@ class _MyHomePageState extends State<MyHomePage> {
           //     color: Colors.blue,
           //   ),
           // ),
-          Chart(_recentTransactions),
-          TransactionList(_userTransactions, _deleteTransaction),
+          /**
+           * 透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
+           */
+          Container(
+            height: remainAvailableHeight * 0.3,
+            child: Chart(_recentTransactions),
+          ),
+          Container(
+            height: remainAvailableHeight * 0.7,
+            child: TransactionList(_userTransactions, _deleteTransaction),
+          ),
           // NewTransaction(),
           // TransactionList()
           /*
