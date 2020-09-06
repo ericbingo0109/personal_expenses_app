@@ -135,15 +135,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     // user的裝置是否為水平狀態
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     /**
      * textScaleFactor tells you by how much text output in the app should be scaled. 
      * Users can change this in their mobile phone / device settings.
      * textScaleFactor default值是1 (如果user 沒有改字體setting)
      */
-    final curScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final curScaleFactor = mediaQuery.textScaleFactor;
 
     // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
     final appBar = AppBar(
@@ -165,9 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
     /**
      * 剩下可用的高度 = 整個裝置高度 - appBar高度 - 狀態列高度;
      */
-    final remainAvailableHeight = MediaQuery.of(context).size.height -
+    final remainAvailableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
 
     double chartHeight = remainAvailableHeight * 0.4;
     double txListHeight = remainAvailableHeight * 0.6;
