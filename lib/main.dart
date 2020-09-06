@@ -205,11 +205,11 @@ class _MyHomePageState extends State<MyHomePage> {
            * 透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
            */
           Container(
-            height: remainAvailableHeight * 0.3,
+            height: remainAvailableHeight * 0.4,
             child: Chart(_recentTransactions),
           ),
           Container(
-            height: remainAvailableHeight * 0.7,
+            height: remainAvailableHeight * 0.6,
             child: TransactionList(_userTransactions, _deleteTransaction),
           ),
           // NewTransaction(),
