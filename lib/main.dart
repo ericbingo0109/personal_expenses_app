@@ -133,6 +133,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    /**
+     * textScaleFactor tells you by how much text output in the app should be scaled. 
+     * Users can change this in their mobile phone / device settings.
+     * textScaleFactor default值是1 (如果user 沒有改字體setting)
+     */
+    final curScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
     final appBar = AppBar(
       title: Text(
@@ -140,6 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
         //與整體theme font不一樣時就自行設定, 可是一旦頁面很多時這樣設定就很麻煩
         // 所以較佳的做法是設定 appBarTheme
         // style: TextStyle(fontFamily: 'OpenSans'),
+        // 如果user有更改字體大小setting時 藉由curScaleFactor會隨著其設定而動態改變字體大小
+        style: TextStyle(fontSize: 14 * curScaleFactor),
       ),
       actions: <Widget>[
         IconButton(
