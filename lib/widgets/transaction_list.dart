@@ -83,11 +83,19 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                     subtitle: Text(
                       DateFormat.yMMMMd().format(transactions[index].date),
                     ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor, // default red
-                      onPressed: () => deleteTx(transactions[index].id),
-                    )),
+                    trailing: MediaQuery.of(context).size.width > 450
+                        ? FlatButton.icon(
+                            //注意這邊要用 FlatButton.icon
+                            icon: Icon(Icons.delete),
+                            label: Text('Delete'),
+                            color: Theme.of(context).errorColor,
+                            onPressed: () => deleteTx(transactions[index].id),
+                          )
+                        : IconButton(
+                            icon: Icon(Icons.delete),
+                            color: Theme.of(context).errorColor, // default red
+                            onPressed: () => deleteTx(transactions[index].id),
+                          )),
               );
               /*
                   return Card(
