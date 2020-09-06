@@ -131,6 +131,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool _showChart = false;
+
   @override
   Widget build(BuildContext context) {
     /**
@@ -177,6 +179,19 @@ class _MyHomePageState extends State<MyHomePage> {
         // verticalDirection: VerticalDirection.down,
         // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('Show Chart'),
+              Switch(
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  }),
+            ],
+          ),
           /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
                   Card(
                     // child: Text('Chart !'),
@@ -201,17 +216,19 @@ class _MyHomePageState extends State<MyHomePage> {
           //     color: Colors.blue,
           //   ),
           // ),
-          /**
+          _showChart
+              ?
+              /**
            * 透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
            */
-          Container(
-            height: remainAvailableHeight * 0.4,
-            child: Chart(_recentTransactions),
-          ),
-          Container(
-            height: remainAvailableHeight * 0.6,
-            child: TransactionList(_userTransactions, _deleteTransaction),
-          ),
+              Container(
+                  height: remainAvailableHeight * 0.7,
+                  child: Chart(_recentTransactions),
+                )
+              : Container(
+                  height: remainAvailableHeight * 0.6,
+                  child: TransactionList(_userTransactions, _deleteTransaction),
+                ),
           // NewTransaction(),
           // TransactionList()
           /*

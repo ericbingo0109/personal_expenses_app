@@ -31,26 +31,31 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
          */
     // child: transactions.isEmpty
     return transactions.isEmpty
-        ? Column(
-            children: <Widget>[
-              Text(
-                'No transaction add yet!',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              SizedBox(
-                // 常用來當作Widget之間的間隔
-                height: 10,
-              ),
-              Container(
-                height: 200,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  // 建議用container  wrap Image
-                  // BoxFit.cover is a great option that respects the boundaries of the surrounding "container" and fits image
-                  fit: BoxFit.cover, // 延伸填滿(圖片可能會被過度放大，部分被裁減掉)
-                ),
-              )
-            ],
+        ? LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                children: <Widget>[
+                  Text(
+                    'No transaction add yet!',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  SizedBox(
+                    // 常用來當作Widget之間的間隔
+                    height: 10,
+                  ),
+                  Container(
+                    height:
+                        constraints.maxHeight * 0.6, // 讓圖片高度動態 fix 避免overflow
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      // 建議用container  wrap Image
+                      // BoxFit.cover is a great option that respects the boundaries of the surrounding "container" and fits image
+                      fit: BoxFit.cover, // 延伸填滿(圖片可能會被過度放大，部分被裁減掉)
+                    ),
+                  )
+                ],
+              );
+            },
           )
         // 注意：ListView是無限高度 所以上面才用container包住並且限制高度
         : ListView.builder(
