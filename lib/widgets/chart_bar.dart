@@ -7,6 +7,15 @@ class ChartBar extends StatelessWidget {
 
   ChartBar(this.label, this.spendingAmount, this.spendingPercentageOfTotal);
 
+  /**
+   * 測驗10
+   * 問題：Where can you use device sizes fetched via MediaQuery?
+   * 答案：In conditions or dynamically calculate sizes.
+   * You can use the data to calculate sizes dynamically or control which widget is (not) display in which way.
+   * 問題：What's the difference between MediaQuery and LayoutBuilder?
+   * 答案： MediaQuery gives you device information, LayoutBuilder gives you constraints that apply to widgets.
+   * 
+   */
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
