@@ -1,3 +1,4 @@
+import 'dart:io'; //io包放在最上面
 import 'package:flutter/material.dart';
 import './widgets/chart.dart';
 import './widgets/transaction_list.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
          * That's correct. You get different shades which some Flutter widgets automatically use.
          */
         // 次要顏色，沒有設定則依照primarySwatch，有設定的話，例如 floating action button 就會依照這顏色
-        accentColor: Colors.green,
+        accentColor: Colors.purple,
         /**
          * 問題：How do you use a text theme on a Text() widget?
          * 解答：Define globally, use via the style argument.
@@ -204,6 +205,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
                 // 例：ios switch外觀會比較粗 android switch則比較細
                 Switch.adaptive(
+                    // switch on時 拉條的顏色跟著accentColor
+                    activeColor: Theme.of(context).accentColor,
                     value: _showChart,
                     onChanged: (val) {
                       setState(() {
@@ -266,10 +269,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _startAddNewTransaction(context),
-        child: Icon(Icons.add),
-      ),
+      // 增加判斷：如果是iOS則不顯示FloatingActionButton
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () => _startAddNewTransaction(context),
+              child: Icon(Icons.add),
+            ),
     );
   }
 }
