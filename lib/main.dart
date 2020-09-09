@@ -148,22 +148,24 @@ class _MyHomePageState extends State<MyHomePage> {
     final curScaleFactor = mediaQuery.textScaleFactor;
 
     // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
-    final appBar = Platform.isIOS ? CupertinoNavigationBar() : AppBar(
-      title: Text(
-        'Personal Expenses',
-        //與整體theme font不一樣時就自行設定, 可是一旦頁面很多時這樣設定就很麻煩
-        // 所以較佳的做法是設定 appBarTheme
-        // style: TextStyle(fontFamily: 'OpenSans'),
-        // 如果user有更改字體大小setting時 藉由curScaleFactor會隨著其設定而動態改變字體大小
-        style: TextStyle(fontSize: 14 * curScaleFactor),
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add), //Icons有許多內建icon可選擇
-          onPressed: () => _startAddNewTransaction(context),
-        )
-      ],
-    );
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar()
+        : AppBar(
+            title: Text(
+              'Personal Expenses',
+              //與整體theme font不一樣時就自行設定, 可是一旦頁面很多時這樣設定就很麻煩
+              // 所以較佳的做法是設定 appBarTheme
+              // style: TextStyle(fontFamily: 'OpenSans'),
+              // 如果user有更改字體大小setting時 藉由curScaleFactor會隨著其設定而動態改變字體大小
+              style: TextStyle(fontSize: 14 * curScaleFactor),
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add), //Icons有許多內建icon可選擇
+                onPressed: () => _startAddNewTransaction(context),
+              )
+            ],
+          );
     /**
      * 剩下可用的高度 = 整個裝置高度 - appBar高度 - 狀態列高度;
      */
