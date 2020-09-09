@@ -1,4 +1,5 @@
 import 'dart:io'; //io包放在最上面
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './widgets/chart.dart';
 import './widgets/transaction_list.dart';
@@ -147,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final curScaleFactor = mediaQuery.textScaleFactor;
 
     // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
-    final appBar = AppBar(
+    final appBar = Platform.isIOS ? CupertinoNavigationBar() : AppBar(
       title: Text(
         'Personal Expenses',
         //與整體theme font不一樣時就自行設定, 可是一旦頁面很多時這樣設定就很麻煩
@@ -183,39 +184,37 @@ class _MyHomePageState extends State<MyHomePage> {
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: Column(
-        /*
+    final pageBody = Column(
+      /*
                 MainAxisAlignment : 順著Widget發展方向 去記
                 如Column : 上下方向 ; Row : 左右方向
                 CrossAxisAlignment : 反之
                 如Column : 左右方向 ; Row : 上下方向
                 */
-        crossAxisAlignment: CrossAxisAlignment.center, // default is center
-        // verticalDirection: VerticalDirection.down,
-        // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
-        children: <Widget>[
-          // 當裝置為landscape時 才顯示Switch
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Show Chart'),
-                // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
-                // 例：ios switch外觀會比較粗 android switch則比較細
-                Switch.adaptive(
-                    // switch on時 拉條的顏色跟著accentColor
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    }),
-              ],
-            ),
-          /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
+      crossAxisAlignment: CrossAxisAlignment.center, // default is center
+      // verticalDirection: VerticalDirection.down,
+      // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
+      children: <Widget>[
+        // 當裝置為landscape時 才顯示Switch
+        if (isLandscape)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('Show Chart'),
+              // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
+              // 例：ios switch外觀會比較粗 android switch則比較細
+              Switch.adaptive(
+                  // switch on時 拉條的顏色跟著accentColor
+                  activeColor: Theme.of(context).accentColor,
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  }),
+            ],
+          ),
+        /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
                   Card(
                     // child: Text('Chart !'),
                     // 若想調整Card size 則必須在 child設定
@@ -228,54 +227,64 @@ class _MyHomePageState extends State<MyHomePage> {
                     elevation: 5, // 按鈕陰影大小值
                   ),
                     */
-          /*方法二 改用Container 去包整個 Card
+        /*方法二 改用Container 去包整個 Card
                    滑鼠游標在 Text 按 Command + . 選擇 wrap with Container
                   */
-          // Container(
-          //   width: double.infinity,
-          //   child: Card(
-          //     child: Text('Chart !'),
-          //     elevation: 5,
-          //     color: Colors.blue,
-          //   ),
-          // ),
-          // 直立的時候 : 就顯示 Chart 以及 TransactionList
-          if (!isLandscape)
-            Container(
-              height: chartHeight,
-              child: Chart(_recentTransactions),
-            ),
-          if (!isLandscape) txListWidget,
-          // 水平的時候 ： 顯示Switch去動態調整顯示 Chart 或 TransactionList
-          if (isLandscape)
-            _showChart
-                ?
-                /**
+        // Container(
+        //   width: double.infinity,
+        //   child: Card(
+        //     child: Text('Chart !'),
+        //     elevation: 5,
+        //     color: Colors.blue,
+        //   ),
+        // ),
+        // 直立的時候 : 就顯示 Chart 以及 TransactionList
+        if (!isLandscape)
+          Container(
+            height: chartHeight,
+            child: Chart(_recentTransactions),
+          ),
+        if (!isLandscape) txListWidget,
+        // 水平的時候 ： 顯示Switch去動態調整顯示 Chart 或 TransactionList
+        if (isLandscape)
+          _showChart
+              ?
+              /**
            * 透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
            */
-                Container(
-                    height: chartHeight,
-                    child: Chart(_recentTransactions),
-                  )
-                : txListWidget,
-          // NewTransaction(),
-          // TransactionList()
-          /*
+              Container(
+                  height: chartHeight,
+                  child: Chart(_recentTransactions),
+                )
+              : txListWidget,
+        // NewTransaction(),
+        // TransactionList()
+        /*
                   Card(
                     child: Text('List of tx '),
                     color: Colors.red,
                   )
                   */
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      // 增加判斷：如果是iOS則不顯示FloatingActionButton
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              onPressed: () => _startAddNewTransaction(context),
-              child: Icon(Icons.add),
-            ),
+      ],
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: appBar,
+            child: pageBody,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: pageBody,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            // 增加判斷：如果是iOS則不顯示FloatingActionButton
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    onPressed: () => _startAddNewTransaction(context),
+                    child: Icon(Icons.add),
+                  ),
+          );
   }
 }
