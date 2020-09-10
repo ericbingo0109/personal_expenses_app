@@ -149,7 +149,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
     final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar()
+        ? CupertinoNavigationBar(
+            // middle 同title
+            middle: Text(
+              'Personal Expenses',
+              style: TextStyle(fontSize: 14 * curScaleFactor),
+            ),
+            // trailing 同 action
+            trailing: Row(
+              // mainAxisSize default is max
+              mainAxisSize: MainAxisSize.min, // 設定min row will shrink along its main axis 
+              children: <Widget>[
+                /* 下面這邊如果照抄原本寫法的話會報錯 因IconButton實作父類非ios widget
+                IconButton(
+                  icon: Icon(Icons.add), 
+                  onPressed: () => _startAddNewTransaction(context),
+                )*/
+                GestureDetector(
+                  child: Icon(
+                    CupertinoIcons.add,
+                  ),
+                  onTap: () => _startAddNewTransaction(context),
+                )
+              ],
+            ),
+          )
         : AppBar(
             title: Text(
               'Personal Expenses',
