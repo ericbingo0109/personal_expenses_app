@@ -158,7 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
             // trailing 同 action
             trailing: Row(
               // mainAxisSize default is max
-              mainAxisSize: MainAxisSize.min, // 設定min row will shrink along its main axis 
+              mainAxisSize:
+                  MainAxisSize.min, // 設定min row will shrink along its main axis
               children: <Widget>[
                 /* 下面這邊如果照抄原本寫法的話會報錯 因IconButton實作父類非ios widget
                 IconButton(
@@ -210,37 +211,39 @@ class _MyHomePageState extends State<MyHomePage> {
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
-    final pageBody = Column(
-      /*
+    final pageBody = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          /*
                 MainAxisAlignment : 順著Widget發展方向 去記
                 如Column : 上下方向 ; Row : 左右方向
                 CrossAxisAlignment : 反之
                 如Column : 左右方向 ; Row : 上下方向
                 */
-      crossAxisAlignment: CrossAxisAlignment.center, // default is center
-      // verticalDirection: VerticalDirection.down,
-      // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
-      children: <Widget>[
-        // 當裝置為landscape時 才顯示Switch
-        if (isLandscape)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Show Chart'),
-              // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
-              // 例：ios switch外觀會比較粗 android switch則比較細
-              Switch.adaptive(
-                  // switch on時 拉條的顏色跟著accentColor
-                  activeColor: Theme.of(context).accentColor,
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  }),
-            ],
-          ),
-        /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
+          crossAxisAlignment: CrossAxisAlignment.center, // default is center
+          // verticalDirection: VerticalDirection.down,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
+          children: <Widget>[
+            // 當裝置為landscape時 才顯示Switch
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Show Chart'),
+                  // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
+                  // 例：ios switch外觀會比較粗 android switch則比較細
+                  Switch.adaptive(
+                      // switch on時 拉條的顏色跟著accentColor
+                      activeColor: Theme.of(context).accentColor,
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      }),
+                ],
+              ),
+            /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
                   Card(
                     // child: Text('Chart !'),
                     // 若想調整Card size 則必須在 child設定
@@ -253,45 +256,47 @@ class _MyHomePageState extends State<MyHomePage> {
                     elevation: 5, // 按鈕陰影大小值
                   ),
                     */
-        /*方法二 改用Container 去包整個 Card
+            /*方法二 改用Container 去包整個 Card
                    滑鼠游標在 Text 按 Command + . 選擇 wrap with Container
                   */
-        // Container(
-        //   width: double.infinity,
-        //   child: Card(
-        //     child: Text('Chart !'),
-        //     elevation: 5,
-        //     color: Colors.blue,
-        //   ),
-        // ),
-        // 直立的時候 : 就顯示 Chart 以及 TransactionList
-        if (!isLandscape)
-          Container(
-            height: chartHeight,
-            child: Chart(_recentTransactions),
-          ),
-        if (!isLandscape) txListWidget,
-        // 水平的時候 ： 顯示Switch去動態調整顯示 Chart 或 TransactionList
-        if (isLandscape)
-          _showChart
-              ?
-              /**
+            // Container(
+            //   width: double.infinity,
+            //   child: Card(
+            //     child: Text('Chart !'),
+            //     elevation: 5,
+            //     color: Colors.blue,
+            //   ),
+            // ),
+            // 直立的時候 : 就顯示 Chart 以及 TransactionList
+            if (!isLandscape)
+              Container(
+                height: chartHeight,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape) txListWidget,
+            // 水平的時候 ： 顯示Switch去動態調整顯示 Chart 或 TransactionList
+            if (isLandscape)
+              _showChart
+                  ?
+                  /**
            * 透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
            */
-              Container(
-                  height: chartHeight,
-                  child: Chart(_recentTransactions),
-                )
-              : txListWidget,
-        // NewTransaction(),
-        // TransactionList()
-        /*
+                  Container(
+                      height: chartHeight,
+                      child: Chart(_recentTransactions),
+                    )
+                  : txListWidget,
+            // NewTransaction(),
+            // TransactionList()
+            /*
                   Card(
                     child: Text('List of tx '),
                     color: Colors.red,
                   )
                   */
-      ],
+          ],
+        ),
+      ),
     );
 
     return Platform.isIOS
