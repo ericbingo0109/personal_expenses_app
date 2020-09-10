@@ -229,7 +229,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Show Chart'),
+                  Text(
+                    'Show Chart',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                   // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
                   // 例：ios switch外觀會比較粗 android switch則比較細
                   Switch.adaptive(
