@@ -148,3 +148,14 @@ class _NewTransactionState extends State<NewTransaction> {
  * answer: Yes! you can use some (!) Cupertino widgets in that case
  * Only some Cupertino widgets will work in a MaterialApp()/ Scaffold().
  */
+
+/**
+ * 本節的其他參考資源
+ * In addition, the following resources might be helpful:
+
+More on MediaQuery & Responsive Layouts: https://api.flutter.dev/flutter/widgets/MediaQuery-class.html & https://stackoverflow.com/questions/49704497/how-to-make-flutter-app-responsive-according-to-different-screen-size?rq=1
+
+More on LayoutBuilder: https://api.flutter.dev/flutter/widgets/LayoutBuilder-class.html
+
+All Cupertino Widgets: https://flutter.dev/docs/development/ui/widgets/cupertino
+ */
