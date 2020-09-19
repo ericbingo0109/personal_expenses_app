@@ -322,3 +322,22 @@ class _MyHomePageState extends State<MyHomePage> {
           );
   }
 }
+
+/**
+ * 測驗12 : Widgets, Elements, build()
+ * 可以複習138: Widgets tree, element tree, render object
+ * question: What's the job of Widget tree ?
+ * answer: Provide configuration for element and render tree.
+ * 
+ * question: What's the job of Element tree? (widget and render tree的中間層)
+ * answer: Connect widget and render tree, manage state, update render tree when widget tree change.
+ * 
+ * question:What is correct about build()?
+ * answer: build() runs very often and re-builds the widget tree (or part of it)
+ * 
+ * question: What's NOT a viable option for reducing the amount of widgets (including built-in widgets) affected by build()?
+ * answer: Using only a single / a few widgets in the whole app
+ * 以下這兩個則是viable option for reducing the amount of widgets
+ * Splitting the app into multiple(small) custom widgets.
+ * Using const widgets and constructors.
+ */
