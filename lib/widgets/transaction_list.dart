@@ -39,7 +39,7 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                     'No transaction add yet!',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     // 常用來當作Widget之間的間隔
                     height: 10,
                   ),
@@ -71,7 +71,9 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                     leading: CircleAvatar(
                       radius: 30,
                       child: Padding(
-                        padding: EdgeInsets.all(6),
+                        // 這邊尺寸確定不會變且點進EdgeInsets的原始碼也是call const EdgeInsets.fromLTRB
+                        // 因此加上const
+                        padding: const EdgeInsets.all(6),
                         child: FittedBox(
                             child: Text('\$${transactions[index].amount}')),
                       ),
@@ -86,13 +88,14 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
                     trailing: MediaQuery.of(context).size.width > 450
                         ? FlatButton.icon(
                             //注意這邊要用 FlatButton.icon
-                            icon: Icon(Icons.delete),
-                            label: Text('Delete'),
+                            icon: const Icon(Icons.delete),
+                            // 這邊確定不會更改 所以加上const，因此再次build的時候直接抓記憶體裡面的值，可以優化一點點性能
+                            label: const Text('Delete'),
                             color: Theme.of(context).errorColor,
                             onPressed: () => deleteTx(transactions[index].id),
                           )
                         : IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                             color: Theme.of(context).errorColor, // default red
                             onPressed: () => deleteTx(transactions[index].id),
                           )),
