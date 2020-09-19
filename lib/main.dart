@@ -135,6 +135,55 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
+/**
+ * landscape: 橫式螢幕
+ * portrait: 直立螢幕
+ */
+
+  List<Widget> _buildLandscapeContent(
+      double chartHeight, Container txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
+          // 例：ios switch外觀會比較粗 android switch則比較細
+          Switch.adaptive(
+              // switch on時 拉條的顏色跟著accentColor
+              activeColor: Theme.of(context).accentColor,
+              value: _showChart,
+              onChanged: (val) {
+                setState(() {
+                  _showChart = val;
+                });
+              }),
+        ],
+      ),
+//透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
+      _showChart
+          ? Container(
+              height: chartHeight,
+              child: Chart(_recentTransactions),
+            )
+          : txListWidget,
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+      double chartHeight, Container txListWidget) {
+    return [
+      Container(
+        height: chartHeight,
+        child: Chart(_recentTransactions),
+      ),
+      txListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -226,26 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             // 當裝置為landscape時 才顯示Switch
             if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  // adaptive constructor 可讓switch 依據平台的不同，自動調整其外觀
-                  // 例：ios switch外觀會比較粗 android switch則比較細
-                  Switch.adaptive(
-                      // switch on時 拉條的顏色跟著accentColor
-                      activeColor: Theme.of(context).accentColor,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      }),
-                ],
-              ),
+              ..._buildLandscapeContent(chartHeight, txListWidget),
             /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
                   Card(
                     // child: Text('Chart !'),
@@ -271,24 +301,14 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             // ),
             // 直立的時候 : 就顯示 Chart 以及 TransactionList
+            // 由於_buildPortraitContent回傳型態是List<Widget> 與期望的單一個Widget型態不符
+            // 這邊的解決方式是加上... 意思是告訴Dart將List<Widget>自動拆散於<Widget>[]陣列之中
             if (!isLandscape)
-              Container(
-                height: chartHeight,
-                child: Chart(_recentTransactions),
-              ),
-            if (!isLandscape) txListWidget,
+              ..._buildPortraitContent(chartHeight, txListWidget),
+            // if (!isLandscape) txListWidget,
             // 水平的時候 ： 顯示Switch去動態調整顯示 Chart 或 TransactionList
-            if (isLandscape)
-              _showChart
-                  ?
-                  /**
-           * 透過 Container 包覆後再去分配剩餘可用的高度給這兩個主要的Widget (Chart & TransactionList)
-           */
-                  Container(
-                      height: chartHeight,
-                      child: Chart(_recentTransactions),
-                    )
-                  : txListWidget,
+            // if (isLandscape)
+
             // NewTransaction(),
             // TransactionList()
             /*
