@@ -184,20 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    // user的裝置是否為水平狀態
-    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
-    /**
-     * textScaleFactor tells you by how much text output in the app should be scaled. 
-     * Users can change this in their mobile phone / device settings.
-     * textScaleFactor default值是1 (如果user 沒有改字體setting)
-     */
-    final curScaleFactor = mediaQuery.textScaleFactor;
-
-    // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
-    final PreferredSizeWidget appBar = Platform.isIOS
+  PreferredSizeWidget _buildAppBar(double curScaleFactor) {
+    return Platform.isIOS
         ? CupertinoNavigationBar(
             // middle 同title
             middle: Text(
@@ -240,9 +228,25 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    // user的裝置是否為水平狀態
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     /**
-     * 剩下可用的高度 = 整個裝置高度 - appBar高度 - 狀態列高度;
+     * textScaleFactor tells you by how much text output in the app should be scaled. 
+     * Users can change this in their mobile phone / device settings.
+     * textScaleFactor default值是1 (如果user 沒有改字體setting)
      */
+    final curScaleFactor = mediaQuery.textScaleFactor;
+
+    // AppBar assign為一個參數方便其他Widget可以得知其高度等其他數據
+    final PreferredSizeWidget appBar = _buildAppBar(curScaleFactor);
+    /**
+         * 剩下可用的高度 = 整個裝置高度 - appBar高度 - 狀態列高度;
+         */
     final remainAvailableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
         mediaQuery.padding.top;
@@ -264,11 +268,11 @@ class _MyHomePageState extends State<MyHomePage> {
       child: SingleChildScrollView(
         child: Column(
           /*
-                MainAxisAlignment : 順著Widget發展方向 去記
-                如Column : 上下方向 ; Row : 左右方向
-                CrossAxisAlignment : 反之
-                如Column : 左右方向 ; Row : 上下方向
-                */
+                    MainAxisAlignment : 順著Widget發展方向 去記
+                    如Column : 上下方向 ; Row : 左右方向
+                    CrossAxisAlignment : 反之
+                    如Column : 左右方向 ; Row : 上下方向
+                    */
           crossAxisAlignment: CrossAxisAlignment.center, // default is center
           // verticalDirection: VerticalDirection.down,
           // mainAxisAlignment: MainAxisAlignment.spaceAround, // default is start
@@ -277,21 +281,21 @@ class _MyHomePageState extends State<MyHomePage> {
             if (isLandscape)
               ..._buildLandscapeContent(chartHeight, txListWidget),
             /* 方法一 Card 裡面的child改用Container去包 然後設定width大小
-                  Card(
-                    // child: Text('Chart !'),
-                    // 若想調整Card size 則必須在 child設定
-                    child: Container(
-                      // width: 200,
-                      width: double.infinity, // take as much width as it can
-                      child: Text('Chart !'),
-                    ),
-                    color: Colors.blue,
-                    elevation: 5, // 按鈕陰影大小值
-                  ),
-                    */
+                      Card(
+                        // child: Text('Chart !'),
+                        // 若想調整Card size 則必須在 child設定
+                        child: Container(
+                          // width: 200,
+                          width: double.infinity, // take as much width as it can
+                          child: Text('Chart !'),
+                        ),
+                        color: Colors.blue,
+                        elevation: 5, // 按鈕陰影大小值
+                      ),
+                        */
             /*方法二 改用Container 去包整個 Card
-                   滑鼠游標在 Text 按 Command + . 選擇 wrap with Container
-                  */
+                       滑鼠游標在 Text 按 Command + . 選擇 wrap with Container
+                      */
             // Container(
             //   width: double.infinity,
             //   child: Card(
@@ -312,11 +316,11 @@ class _MyHomePageState extends State<MyHomePage> {
             // NewTransaction(),
             // TransactionList()
             /*
-                  Card(
-                    child: Text('List of tx '),
-                    color: Colors.red,
-                  )
-                  */
+                      Card(
+                        child: Text('List of tx '),
+                        color: Colors.red,
+                      )
+                      */
           ],
         ),
       ),
