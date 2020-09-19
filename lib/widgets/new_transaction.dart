@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../widgets/adaptive_flat_button.dart';
 // import 'package:keyboard_actions/keyboard_actions.dart';
 // import '../widgets/user_transactions.dart';
 
@@ -121,24 +122,7 @@ class _NewTransactionState extends State<NewTransaction> {
                             : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
                       ),
                     ),
-                    Platform.isIOS
-                        ? CupertinoButton(
-                            // color: Colors.blue,
-                            child: Text(
-                              'Chose Date',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: _presentDatePicker,
-                          )
-                        : FlatButton(
-                            child: Text(
-                              'Chose Date',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            textColor: Theme.of(context).primaryColor,
-                            onPressed:
-                                _presentDatePicker, // just pass the reference
-                          ),
+                    AdaptiveFlatButton('Choose Date', _presentDatePicker)
                   ],
                 ),
               ),
@@ -157,3 +141,10 @@ class _NewTransactionState extends State<NewTransaction> {
     );
   }
 }
+
+/**
+ * 測驗11
+ * question: Do Cupertino widgets works in a MaterialApp() + Scaffold() page ?
+ * answer: Yes! you can use some (!) Cupertino widgets in that case
+ * Only some Cupertino widgets will work in a MaterialApp()/ Scaffold().
+ */
