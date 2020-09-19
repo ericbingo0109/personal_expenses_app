@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import './transaction_item.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
@@ -60,46 +60,9 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
         // 注意：ListView是無限高度 所以上面才用container包住並且限制高度
         : ListView.builder(
             itemBuilder: (context, index) {
-              // 改用ListTile
-              return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 5,
-                ),
-                child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        // 這邊尺寸確定不會變且點進EdgeInsets的原始碼也是call const EdgeInsets.fromLTRB
-                        // 因此加上const
-                        padding: const EdgeInsets.all(6),
-                        child: FittedBox(
-                            child: Text('\$${transactions[index].amount}')),
-                      ),
-                    ),
-                    title: Text(
-                      transactions[index].title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMMd().format(transactions[index].date),
-                    ),
-                    trailing: MediaQuery.of(context).size.width > 450
-                        ? FlatButton.icon(
-                            //注意這邊要用 FlatButton.icon
-                            icon: const Icon(Icons.delete),
-                            // 這邊確定不會更改 所以加上const，因此再次build的時候直接抓記憶體裡面的值，可以優化一點點性能
-                            label: const Text('Delete'),
-                            color: Theme.of(context).errorColor,
-                            onPressed: () => deleteTx(transactions[index].id),
-                          )
-                        : IconButton(
-                            icon: const Icon(Icons.delete),
-                            color: Theme.of(context).errorColor, // default red
-                            onPressed: () => deleteTx(transactions[index].id),
-                          )),
-              );
+              // Extract原本的Card widget 為 TransactionItem
+              return TransactionItem(
+                  transaction: transactions[index], deleteTx: deleteTx);
               /*
                   return Card(
                     child: Row(
