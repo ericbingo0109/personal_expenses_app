@@ -73,7 +73,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [
     // Transaction(
     //   id: 't1',
@@ -87,6 +87,27 @@ class _MyHomePageState extends State<MyHomePage> {
     //     amount: 16.53,
     //     date: DateTime.now()),
   ];
+
+  // 快捷鍵 initS
+  @override
+  void initState() {
+    WidgetsBinding.instance
+        .addObserver(this); // 會觸發執行 didChangeAppLifecycleState 這個method
+    super.initState();
+  }
+
+  // 快捷鍵 找不到...好像沒有
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('目前的 state : ' + state.toString());
+  }
+
+  // 快捷鍵 dis
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   // 回傳七天前到現在的transactions
   List<Transaction> get _recentTransactions {
