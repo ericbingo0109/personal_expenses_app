@@ -77,3 +77,17 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
           );
   }
 }
+
+/**
+ * 測驗13
+ * question: Why do you (rarely) need keys?
+ * answer: To help Flutter link elements (element tree) and widgets (widgets tree) correctly.
+ * 
+ * question: How does Flutter match widgets and elements if you DON'T use keys.
+ * answer: By the type of widget
+ * 
+ * question: Why do keys only matter if you're working with stateful widgets in a list?
+ * answer:  Because state objects are attached to the element, not the widget.
+ *  Flutter may attach a state object to the wrong widget (if widgets moved or where deleted) 
+ * if you're not using keys.
+ */
