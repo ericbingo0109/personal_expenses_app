@@ -57,13 +57,23 @@ I/flutter (23294): The overflowing RenderFlex has an orientation of Axis.vertica
             },
           )
         // 注意：ListView是無限高度 所以上面才用container包住並且限制高度
-        : ListView.builder(
-            itemBuilder: (context, index) {
-              // Extract原本的Card widget 為 TransactionItem
-              return TransactionItem(
-                  transaction: transactions[index], deleteTx: deleteTx);
-            },
-            itemCount: transactions.length, // how many items should be build
+        : ListView(
+            children: transactions
+                .map((tx) => TransactionItem(
+                      // 為每個 TransactionItem 產生 UniqueKey但這方法沒用，每次重build的時候顏色又變了
+                      // 且在彈出輸入資料的視窗時，就可看到顏色變了
+                      // key: UniqueKey(),
+                      /**
+                       * UniqueKey & ValueKey 差別：
+                       * Unlike UniqueKey(), ValueKey() does not (re-)calculate a random value 
+                       * but simply wraps a non-changing identifier provided by you
+                       */
+                      key: ValueKey(tx.id), //可解決上述問題，且刪除時也維持原本item的顏色
+                      // 使用key 讓flutter element對應widget
+                      transaction: tx,
+                      deleteTx: deleteTx,
+                    ))
+                .toList(),
           );
   }
 }
